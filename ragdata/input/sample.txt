@@ -1,0 +1,4 @@
+# 以下の形式のcsvファイルを格納してください
+# papers.xlsmシートを活用すると楽にcsvが作成できます。
+source,title,text,update
+<学会名>,<論文名>,{"#Authors:<著者>\n# Affiliations:<所属組織>\n# Abstract:<概要>\n# Conference:<学会名>\n# Year:<年>"},<この行の更新日時>

@@ -1,0 +1,152 @@
+
+-Goal-
+Given a text document that is potentially relevant to this activity and a list of entity types, identify all entities of those types from the text and all relationships among the identified entities.
+
+-Steps-
+1. Identify all entities. For each identified entity, extract the following information:
+- entity_name: Name of the entity, capitalized
+- entity_type: One of the following types: [author, affiliation, programming language, tool, methodology, dataset, technique, issue, framework, approach, conference, year]
+- entity_description: Comprehensive description of the entity's attributes and activities
+Format each entity as ("entity"{tuple_delimiter}<entity_name>{tuple_delimiter}<entity_type>{tuple_delimiter}<entity_description>)
+
+2. From the entities identified in step 1, identify all pairs of (source_entity, target_entity) that are *clearly related* to each other.
+For each pair of related entities, extract the following information:
+- source_entity: name of the source entity, as identified in step 1
+- target_entity: name of the target entity, as identified in step 1
+- relationship_description: explanation as to why you think the source entity and the target entity are related to each other
+- relationship_strength: an integer score between 1 to 10, indicating strength of the relationship between the source entity and target entity
+Format each relationship as ("relationship"{tuple_delimiter}<source_entity>{tuple_delimiter}<target_entity>{tuple_delimiter}<relationship_description>{tuple_delimiter}<relationship_strength>)
+
+3. Return output in The primary language of the provided text is "English". as a single list of all the entities and relationships identified in steps 1 and 2. Use **{record_delimiter}** as the list delimiter.
+
+4. If you have to translate into The primary language of the provided text is "English"., just translate the descriptions, nothing else!
+
+5. When finished, output {completion_delimiter}.
+
+-Examples-
+######################
+
+Example 1:
+
+entity_types: [author, affiliation, programming language, tool, methodology, dataset, technique, issue, framework, approach, conference, year]
+text:
+# Authors:David OBrien, Robert Dyer, Tien N. Nguyen, Hridesh Rajan \n# Affiliations:Iowa State University    University of Nebraska-Lincoln    University of Texas at Dallas\n # Abstract:Programming languages are essential tools for developers, and their evolution plays a crucial role in supporting the activities of its developers. One instance of programming language evolution is the introduction of syntactic sugars, which are additional syntax elements that provide alternative, more readable code constructs. However, the process of designing and evolving a programming language has traditionally been guided by anecdotal experiences and intuition. Recent advances in tools and methodologies for mining open-source repositories have enabled developers to make data-driven software engineering decisions. In light of this, this paper proposes an approach for motivating data-driven programming evolution by applying frequent subgraph mining techniques to a large dataset of 166,827,154 open-source Java methods. The dataset is mined by generalizing Java control-flow graphs to capture broad programming language us
+------------------------
+output:
+("entity"{tuple_delimiter}DAVID OBRIEN{tuple_delimiter}author{tuple_delimiter}David OBrien is one of the authors of the paper)
+{record_delimiter}
+("entity"{tuple_delimiter}ROBERT DYER{tuple_delimiter}author{tuple_delimiter}Robert Dyer is one of the authors of the paper)
+{record_delimiter}
+("entity"{tuple_delimiter}TIEN N. NGUYEN{tuple_delimiter}author{tuple_delimiter}Tien N. Nguyen is one of the authors of the paper)
+{record_delimiter}
+("entity"{tuple_delimiter}HRIDESH RAJAN{tuple_delimiter}author{tuple_delimiter}Hridesh Rajan is one of the authors of the paper)
+{record_delimiter}
+("entity"{tuple_delimiter}IOWA STATE UNIVERSITY{tuple_delimiter}affiliation{tuple_delimiter}Iowa State University is one of the affiliations of the authors)
+{record_delimiter}
+("entity"{tuple_delimiter}UNIVERSITY OF NEBRASKA-LINCOLN{tuple_delimiter}affiliation{tuple_delimiter}University of Nebraska-Lincoln is one of the affiliations of the authors)
+{record_delimiter}
+("entity"{tuple_delimiter}UNIVERSITY OF TEXAS AT DALLAS{tuple_delimiter}affiliation{tuple_delimiter}University of Texas at Dallas is one of the affiliations of the authors)
+{record_delimiter}
+("entity"{tuple_delimiter}JAVA{tuple_delimiter}programming language{tuple_delimiter}Java is the programming language used in the dataset of 166,827,154 open-source methods)
+{record_delimiter}
+("entity"{tuple_delimiter}SYNTACTIC SUGARS{tuple_delimiter}technique{tuple_delimiter}Syntactic sugars are additional syntax elements that provide alternative, more readable code constructs)
+{record_delimiter}
+("entity"{tuple_delimiter}FREQUENT SUBGRAPH MINING{tuple_delimiter}technique{tuple_delimiter}Frequent subgraph mining is a technique proposed in the paper for motivating data-driven programming evolution)
+{record_delimiter}
+("entity"{tuple_delimiter}CONTROL-FLOW GRAPHS{tuple_delimiter}technique{tuple_delimiter}Control-flow graphs are used to generalize Java methods in the dataset)
+{record_delimiter}
+("entity"{tuple_delimiter}OPEN-SOURCE REPOSITORIES{tuple_delimiter}dataset{tuple_delimiter}Open-source repositories are mined to make data-driven software engineering decisions)
+{record_delimiter}
+("entity"{tuple_delimiter}166,827,154 OPEN-SOURCE JAVA METHODS{tuple_delimiter}dataset{tuple_delimiter}The dataset consists of 166,827,154 open-source Java methods)
+{record_delimiter}
+("entity"{tuple_delimiter}DATA-DRIVEN PROGRAMMING EVOLUTION{tuple_delimiter}approach{tuple_delimiter}Data-driven programming evolution is the approach proposed in the paper)
+{record_delimiter}
+("relationship"{tuple_delimiter}DAVID OBRIEN{tuple_delimiter}IOWA STATE UNIVERSITY{tuple_delimiter}David OBrien is affiliated with Iowa State University{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}ROBERT DYER{tuple_delimiter}UNIVERSITY OF NEBRASKA-LINCOLN{tuple_delimiter}Robert Dyer is affiliated with University of Nebraska-Lincoln{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}TIEN N. NGUYEN{tuple_delimiter}UNIVERSITY OF TEXAS AT DALLAS{tuple_delimiter}Tien N. Nguyen is affiliated with University of Texas at Dallas{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}HRIDESH RAJAN{tuple_delimiter}IOWA STATE UNIVERSITY{tuple_delimiter}Hridesh Rajan is affiliated with Iowa State University{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}JAVA{tuple_delimiter}166,827,154 OPEN-SOURCE JAVA METHODS{tuple_delimiter}The dataset consists of 166,827,154 open-source Java methods{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}SYNTACTIC SUGARS{tuple_delimiter}JAVA{tuple_delimiter}Syntactic sugars are additional syntax elements in Java{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}FREQUENT SUBGRAPH MINING{tuple_delimiter}DATA-DRIVEN PROGRAMMING EVOLUTION{tuple_delimiter}Frequent subgraph mining is used to motivate data-driven programming evolution{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}CONTROL-FLOW GRAPHS{tuple_delimiter}JAVA{tuple_delimiter}Control-flow graphs are used to generalize Java methods in the dataset{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}OPEN-SOURCE REPOSITORIES{tuple_delimiter}DATA-DRIVEN PROGRAMMING EVOLUTION{tuple_delimiter}Open-source repositories are mined to make data-driven software engineering decisions{tuple_delimiter}8)
+{record_delimiter}
+{completion_delimiter}
+#############################
+
+
+Example 2:
+
+entity_types: [author, affiliation, programming language, tool, methodology, dataset, technique, issue, framework, approach, conference, year]
+text:
+# Authors:Rafael-Michael Karampatsis, Hlib Babii, Romain Robbes, Charles Sutton, Andrea Janes \n# Affiliations:The University of Edinburgh    Free University of Bozen-Bolzano    Google Research\n # Abstract:Statistical language modeling techniques have successfully been applied to large source code corpora, yielding a variety of new software development tools, such as tools for code suggestion, improving readability, and API migration. A major issue with these techniques is that code introduces new vocabulary at a far higher rate than natural language, as new identifier names proliferate. Both large vocabularies and out-of-vocabulary issues severely affect Neural Language Models (NLMs) of source code, degrading their performance and rendering them unable to scale. In this paper, we address this issue by: 1) studying how various modelling choices impact the resulting vocabulary on a large-scale corpus of 13,362 projects; 2) presenting an open vocabulary
+------------------------
+output:
+("entity"{tuple_delimiter}RAFAEL-MICHAEL KARAMPATSIS{tuple_delimiter}author{tuple_delimiter}Rafael-Michael Karampatsis is one of the authors of the paper)
+{record_delimiter}
+("entity"{tuple_delimiter}HLIB BABII{tuple_delimiter}author{tuple_delimiter}Hlib Babii is one of the authors of the paper)
+{record_delimiter}
+("entity"{tuple_delimiter}ROMAIN ROBBES{tuple_delimiter}author{tuple_delimiter}Romain Robbes is one of the authors of the paper)
+{record_delimiter}
+("entity"{tuple_delimiter}CHARLES SUTTON{tuple_delimiter}author{tuple_delimiter}Charles Sutton is one of the authors of the paper)
+{record_delimiter}
+("entity"{tuple_delimiter}ANDREA JANES{tuple_delimiter}author{tuple_delimiter}Andrea Janes is one of the authors of the paper)
+{record_delimiter}
+("entity"{tuple_delimiter}THE UNIVERSITY OF EDINBURGH{tuple_delimiter}affiliation{tuple_delimiter}The University of Edinburgh is one of the affiliations of the authors)
+{record_delimiter}
+("entity"{tuple_delimiter}FREE UNIVERSITY OF BOZEN-BOLZANO{tuple_delimiter}affiliation{tuple_delimiter}Free University of Bozen-Bolzano is one of the affiliations of the authors)
+{record_delimiter}
+("entity"{tuple_delimiter}GOOGLE RESEARCH{tuple_delimiter}affiliation{tuple_delimiter}Google Research is one of the affiliations of the authors)
+{record_delimiter}
+("entity"{tuple_delimiter}STATISTICAL LANGUAGE MODELING{tuple_delimiter}technique{tuple_delimiter}Statistical language modeling techniques have been applied to large source code corpora to create new software development tools)
+{record_delimiter}
+("entity"{tuple_delimiter}NEURAL LANGUAGE MODELS (NLMS){tuple_delimiter}technique{tuple_delimiter}Neural Language Models (NLMs) are affected by large vocabularies and out-of-vocabulary issues in source code)
+{record_delimiter}
+("entity"{tuple_delimiter}CODE SUGGESTION{tuple_delimiter}tool{tuple_delimiter}Code suggestion tools are developed using statistical language modeling techniques)
+{record_delimiter}
+("entity"{tuple_delimiter}IMPROVING READABILITY{tuple_delimiter}tool{tuple_delimiter}Tools for improving readability of code are developed using statistical language modeling techniques)
+{record_delimiter}
+("entity"{tuple_delimiter}API MIGRATION{tuple_delimiter}tool{tuple_delimiter}API migration tools are developed using statistical language modeling techniques)
+{record_delimiter}
+("entity"{tuple_delimiter}OUT-OF-VOCABULARY ISSUES{tuple_delimiter}issue{tuple_delimiter}Out-of-vocabulary issues severely affect Neural Language Models (NLMs) of source code)
+{record_delimiter}
+("entity"{tuple_delimiter}LARGE VOCABULARIES{tuple_delimiter}issue{tuple_delimiter}Large vocabularies severely affect Neural Language Models (NLMs) of source code)
+{record_delimiter}
+("relationship"{tuple_delimiter}RAFAEL-MICHAEL KARAMPATSIS{tuple_delimiter}THE UNIVERSITY OF EDINBURGH{tuple_delimiter}Rafael-Michael Karampatsis is affiliated with The University of Edinburgh{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}HLIB BABII{tuple_delimiter}FREE UNIVERSITY OF BOZEN-BOLZANO{tuple_delimiter}Hlib Babii is affiliated with Free University of Bozen-Bolzano{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}ROMAIN ROBBES{tuple_delimiter}FREE UNIVERSITY OF BOZEN-BOLZANO{tuple_delimiter}Romain Robbes is affiliated with Free University of Bozen-Bolzano{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}CHARLES SUTTON{tuple_delimiter}THE UNIVERSITY OF EDINBURGH{tuple_delimiter}Charles Sutton is affiliated with The University of Edinburgh{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}ANDREA JANES{tuple_delimiter}GOOGLE RESEARCH{tuple_delimiter}Andrea Janes is affiliated with Google Research{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}STATISTICAL LANGUAGE MODELING{tuple_delimiter}CODE SUGGESTION{tuple_delimiter}Statistical language modeling techniques are used to develop code suggestion tools{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}STATISTICAL LANGUAGE MODELING{tuple_delimiter}IMPROVING READABILITY{tuple_delimiter}Statistical language modeling techniques are used to develop tools for improving readability{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}STATISTICAL LANGUAGE MODELING{tuple_delimiter}API MIGRATION{tuple_delimiter}Statistical language modeling techniques are used to develop API migration tools{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}NEURAL LANGUAGE MODELS (NLMS){tuple_delimiter}OUT-OF-VOCABULARY ISSUES{tuple_delimiter}Out-of-vocabulary issues affect Neural Language Models (NLMs) of source code{tuple_delimiter}6)
+{record_delimiter}
+("relationship"{tuple_delimiter}NEURAL LANGUAGE MODELS (NLMS){tuple_delimiter}LARGE VOCABULARIES{tuple_delimiter}Large vocabularies affect Neural Language Models (NLMs) of source code{tuple_delimiter}6)
+{completion_delimiter}
+#############################
+
+
+
+-Real Data-
+######################
+entity_types: [author, affiliation, programming language, tool, methodology, dataset, technique, issue, framework, approach, conference, year]
+text: {input_text}
+######################
+output:

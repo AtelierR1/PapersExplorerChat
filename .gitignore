@@ -1,0 +1,4 @@
+ragdata/cache/
+ragdata/output/lancedb/
+*/__pycache__/*
+__pycache__
